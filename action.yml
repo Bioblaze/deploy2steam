@@ -1,6 +1,9 @@
 name: 'Deploy2Steam'
 author: Randolph William Aarseth II <randolph@divine.games>
 description: 'Deploy game builds to Steam using the SteamSDK.'
+branding:
+  icon: 'briefcase'
+  color: 'green'
 inputs:
   username:
     required: true
