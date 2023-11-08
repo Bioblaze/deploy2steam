@@ -89,6 +89,18 @@ In this example, you would replace `appId`, `depotId`, and the `secrets` with yo
 
 This GitHub Action includes a Node.js file named `get_totp.js` that is used to generate the time-based one-time password (TOTP) for Steam's two-factor authentication when provided with a `shared_secret`.
 
+# How to Get the Shared Token for Steam
+
+To facilitate seamless deployment of game builds on Steam through our GitHub Actions workflow, obtaining a shared token for authentication is a critical step. This token is associated with Steam Guard's two-factor authentication system. For detailed instructions on setting this up, we have prepared a comprehensive tutorial.
+
+Please refer to the following guide to obtain your shared token:
+
+[How to Get the Shared Token for Steam (STEAM_TUTORIAL.md)](./STEAM_TUTORIAL.md)
+
+This guide includes all the necessary steps from installing the required software, such as Rust and `steamguard-cli`, to linking an authenticator with your Steam account and finalizing the process to obtain your shared token.
+
+Ensure that you follow the steps carefully and safeguard your revocation code as it is essential for account recovery purposes. If you encounter any issues, feel free to raise an issue on the repository or contact the maintainer.
+
 ## License
 
 This GitHub Action is distributed under the MIT license. See the `LICENSE` file for more details.
