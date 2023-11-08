@@ -1,0 +1,50 @@
+name: 'Deploy2Steam'
+author: Randolph William Aarseth II <randolph@divine.games>
+description: 'Deploy game builds to Steam using the SteamSDK.'
+inputs:
+  username:
+    required: true
+    default: ''
+    description: 'The username of your builder account.'
+  password:
+    required: true
+    default: ''
+    description: 'The password of your builder account.'
+  shared_secret:
+    required: true
+    description: 'The STEAM_SHARED_SECRET to use for login. If set, `configVdf` will be ignored.'
+  configVdf:
+    required: false
+    description: 'The contents of STEAM_HOME/config/config.vdf. Required if `shared_secret` is not set.'
+  appId:
+    required: true
+    default: ''
+    description: 'The app id within steam partner network.'
+  buildDescription:
+    required: false
+    description: 'Description for this build.'
+  rootPath:
+    required: true
+    description: 'The root path to your builds. This is the base of which depots will search your files.'
+  depotId:
+    required: true
+    description: 'The Id to depot.'
+  depotPath:
+    required: true
+    description: 'The path to depot.'
+outputs:
+  manifest:
+    description: "The path to the generated manifest.vdf"
+runs:
+  using: "docker"
+  image: Dockerfile
+  env:
+    steam_username: ${{ inputs.username }}
+    steam_password: ${{ inputs.password }}
+    steam_shared_secret: ${{ inputs.shared_secret }}
+    configVdf: ${{ inputs.configVdf }}
+    appId: ${{ inputs.appId }}
+    buildDescription: ${{ inputs.buildDescription }}
+    rootPath: ${{ inputs.rootPath }}
+    depotId: ${{ inputs.depotId }}
+    depotPath: ${{ inputs.depotPath }}

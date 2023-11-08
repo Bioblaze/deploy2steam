@@ -1,0 +1,23 @@
+{
+  "name": "deploy2steam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "get_totp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bioblaze/deploy2steam.git"
+  },
+  "keywords": [],
+  "author": "Randolph William Aarseth II <randolph@divine.games>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bioblaze/deploy2steam/issues"
+  },
+  "homepage": "https://github.com/Bioblaze/deploy2steam#readme",
+  "dependencies": {
+    "steam-totp": "^2.1.2"
+  }
+}
