@@ -22,12 +22,6 @@ jobs:
       uses: codacy/git-version@2.7.1
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.BIO_GITHUB_PAT }}
+      uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        tag_name: latest
-        release_name: ${{ steps.version.outputs.version }}
-        body: Release Version ${{ steps.version.outputs.version }}
-        draft: false
-        prerelease: false
+        repo_token: ${{ secrets.BIO_GITHUB_PAT }}
