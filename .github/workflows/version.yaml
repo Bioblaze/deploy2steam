@@ -11,20 +11,23 @@ jobs:
     container:
       image: rightbrainnetworks/auto-semver
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Run Auto-Semver
-      id: semver
-      uses: RightBrain-Networks/semver-action@1.0.0
+    - name: Checkout Code
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}   # checkout the correct branch name
+        fetch-depth: 0                # fetch the whole repo history
+
+    - name: Git Version
+      id: version
+      uses: codacy/git-version@2.7.1
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
-      if: steps['semver']['outputs']['RETURN_STATUS'] == '0'
       env:
         GITHUB_TOKEN: ${{ secrets.BIO_GITHUB_PAT }}
       with:
-        tag_name: ${{ steps.semver.outputs.SEMVER_NEW_VERSION }}
-        release_name: ${{ steps.semver.outputs.SEMVER_NEW_VERSION }}
-        body: Release Version ${{ steps.semver.outputs.SEMVER_NEW_VERSION }}
+        tag_name: latest
+        release_name: ${{ steps.version.outputs.version }}
+        body: Release Version ${{ steps.version.outputs.version }}
         draft: false
         prerelease: false
