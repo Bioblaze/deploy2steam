@@ -68,13 +68,20 @@ fi
 # Function to handle SteamCMD login and build upload
 execute_steamcmd() {
   local totp_code=""
+  local totp_code_second=""
+
   if [ "$steam_shared_secret" != "INVALID" ]; then
     totp_code=$(node /root/get_totp.js "$steam_shared_secret")
+    totp_code_second=$(node /root/get_totp.js "$steam_shared_secret" "5")
+
+    if [ "$totp_code" != "$totp_code_second" ]; then
+      totp_code=$totp_code_second
+      sleep 5
+    fi
   fi
 
   steamcmd +login "$steam_username" "$steam_password" $totp_code "$@"
 }
-
 # Test login
 echo "#################################"
 echo "#        Test login             #"
