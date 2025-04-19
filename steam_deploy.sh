@@ -66,22 +66,40 @@ else
 fi
 
 # Function to handle SteamCMD login and build upload
+# Function to handle SteamCMD login and build upload with retries
 execute_steamcmd() {
   local totp_code=""
   local totp_code_second=""
+  local max_retries=5
+  local attempt=1
 
-  if [ "$steam_shared_secret" != "INVALID" ]; then
-    totp_code=$(node /root/get_totp.js "$steam_shared_secret")
-    totp_code_second=$(node /root/get_totp.js "$steam_shared_secret" "5")
+  while [ $attempt -le $max_retries ]; do
+    echo "Attempt $attempt of $max_retries..."
 
-    if [ "$totp_code" != "$totp_code_second" ]; then
-      totp_code=$totp_code_second
+    if [ "$steam_shared_secret" != "INVALID" ]; then
+      totp_code=$(node /root/get_totp.js "$steam_shared_secret")
+      totp_code_second=$(node /root/get_totp.js "$steam_shared_secret" "5")
+
+      if [ "$totp_code" != "$totp_code_second" ]; then
+        totp_code=$totp_code_second
+        sleep 6
+      fi
+    fi
+
+    if steamcmd +login "$steam_username" "$steam_password" $totp_code "$@"; then
+      echo "SteamCMD login successful on attempt $attempt."
+      return 0
+    else
+      echo "SteamCMD login failed on attempt $attempt."
+      attempt=$((attempt + 1))
       sleep 5
     fi
-  fi
+  done
 
-  steamcmd +login "$steam_username" "$steam_password" $totp_code "$@"
+  echo "SteamCMD login failed after $max_retries attempts."
+  return 1
 }
+
 # Test login
 echo "#################################"
 echo "#        Test login             #"
