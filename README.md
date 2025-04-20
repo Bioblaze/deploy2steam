@@ -27,7 +27,7 @@ This GitHub Action utilizes a Docker image that includes the necessary tools to 
 
 ## Outputs
 
-- `manifest`: The path to the generated manifest file `manifest.vdf`, which is used by Steam for the deployment.
+- `build_id`: The unique build ID returned after a successful upload to Steam.
 
 ## Environment Variables
 

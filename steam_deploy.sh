@@ -4,6 +4,7 @@ IFS=$'\n\t'
 
 # Define the paths and inputs
 steamdir=${STEAM_HOME:-$HOME/Steam}
+steamdir_logs=${STEAM_HOME:-$HOME/.local/share/Steam}
 contentroot=$(pwd)/${rootPath:-.}
 buildOutputDir=$(pwd)/BuildOutput
 vdfFilePath=$(pwd)/simple_app_build.vdf
@@ -117,7 +118,8 @@ echo "#################################"
 echo "#        Uploading build        #"
 echo "#################################"
 
-if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit; then
+build_output=$(mktemp)
+if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit | tee "$build_output"; then
   echo "Errors during build upload"
   echo ""
   echo "#################################"
@@ -132,9 +134,9 @@ if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit; then
   echo ""
   echo "Listing logs folder:"
   echo ""
-  ls -Ralph "$steamdir/logs/"
+  ls -Ralph "$steamdir_logs/logs/"
 
-  for f in "$steamdir"/logs/*; do
+  for f in "$steamdir_logs"/logs/*; do
     if [ -e "$f" ]; then
       echo "######## $f"
       cat "$f"
@@ -145,11 +147,11 @@ if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit; then
   echo ""
   echo "Displaying error log"
   echo ""
-  cat "$steamdir/logs/stderr.txt"
+  cat "$steamdir_logs/logs/stderr.txt"
   echo ""
   echo "Displaying bootstrapper log"
   echo ""
-  cat "$steamdir/logs/bootstrap_log.txt"
+  cat "$steamdir_logs/logs/bootstrap_log.txt"
   echo ""
   echo "#################################"
   echo "#             Output            #"
@@ -162,5 +164,16 @@ if ! execute_steamcmd +run_app_build "$vdfFilePath" +quit; then
     cat "$f"
     echo
   done
+  exit 1
+fi
+
+# Extract BuildID from output
+build_id=$(grep -oE 'BuildID [0-9]+' "$build_output" | grep -oE '[0-9]+' | head -n1)
+
+if [[ -n "$build_id" ]]; then
+  echo "Detected BuildID: $build_id"
+  echo "build_id=$build_id" >> "$GITHUB_OUTPUT"
+else
+  echo "Failed to detect BuildID from SteamCMD output."
   exit 1
 fi

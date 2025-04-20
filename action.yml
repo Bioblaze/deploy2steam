@@ -36,8 +36,8 @@ inputs:
     required: true
     description: 'The path to depot.'
 outputs:
-  manifest:
-    description: "The path to the generated manifest.vdf"
+  build_id:
+    description: 'The unique build ID returned after a successful upload to Steam.'
 runs:
   using: "docker"
   image: Dockerfile
