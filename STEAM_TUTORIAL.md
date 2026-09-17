@@ -1,5 +1,18 @@
 # How to Get the Shared Token for Steam
 
+> **Deprecated.** Do not install steamguard-cli, Cargo, Node, or npm `steam-totp`. Use [blazium-cli](https://github.com/blazium-games/blazium-cli):
+>
+> ```text
+> blazium-cli deploy steam guard setup
+> blazium-cli deploy steam guard totp
+> blazium-cli deploy steam guard import --mafile path/to/account.maFile
+> ```
+>
+> Existing SDA / steamguard-cli maFiles and `BLAZIUM_STEAM_SHARED_SECRET` still work. `guard setup` is interactive and account-binding; CI should use a pre-made shared_secret. Write down the Steam revocation code before Finalize.
+
+# How to Get the Shared Token for Steam (legacy steamguard-cli)
+
+
 In order to deploy game builds to Steam using a GitHub Action or any other CI/CD tool, you may require a shared token for Steam. This shared token can be obtained through a Steam Guard Mobile Authenticator. Below is a guide on how to install the necessary tools and obtain your shared token using `steamguard-cli`, a command-line tool for generating Steam Guard codes.
 
 ### Pre-requisites

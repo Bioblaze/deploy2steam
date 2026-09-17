@@ -1,3 +1,5 @@
+> **Deprecated.** Steam deploy now lives in [blazium-cli](https://github.com/blazium-games/blazium-cli): `blazium-cli deploy steam upload`. This Action is no longer developed. Do not use steamguard-cli, Node, or `steam-totp`; Guard TOTP is built into the CLI.
+
 ![Release Version](https://img.shields.io/github/v/release/Bioblaze/deploy2steam)
 
 # Deploy2Steam GitHub Action
